@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maya Parfum | Catálogo de Decants</title>
+  <style>
+    :root{
+      --bg:#0b0b0f;
+      --card:#15151d;
+      --gold:#d4af37;
+      --text:#f5f5f5;
+      --muted:#b9b9c6;
+      --green:#25d366;
+      --line:#2a2a36;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#050507,#11111a);
+      color:var(--text);
+    }
+    header{
+      padding:28px 16px;
+      text-align:center;
+      background:radial-gradient(circle at top,#292330,#07070b 65%);
+      border-bottom:1px solid var(--line);
+    }
+    header h1{
+      margin:0;
+      font-size:34px;
+      letter-spacing:2px;
+      color:var(--gold);
+    }
+    header p{
+      margin:8px auto 0;
+      max-width:720px;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .bar{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(11,11,15,.96);
+      backdrop-filter: blur(8px);
+      padding:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .controls{
+      max-width:1100px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr 150px 150px;
+      gap:10px;
+    }
+    input,select{
+      width:100%;
+      border:1px solid var(--line);
+      background:#111119;
+      color:var(--text);
+      padding:12px;
+      border-radius:10px;
+      font-size:14px;
+    }
+    main{
+      max-width:1100px;
+      margin:20px auto 120px;
+      padding:0 12px;
+    }
+    .section-title{
+      margin:28px 0 12px;
+      font-size:22px;
+      color:var(--gold);
+      border-left:4px solid var(--gold);
+      padding-left:10px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg,#181821,#101016);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:15px;
+      box-shadow:0 8px 24px rgba(0,0,0,.25);
+    }
+    .tag{
+      display:inline-block;
+      font-size:11px;
+      color:#111;
+      background:var(--gold);
+      padding:4px 8px;
+      border-radius:999px;
+      margin-bottom:8px;
+      font-weight:bold;
+    }
+    .card h3{
+      margin:0 0 6px;
+      font-size:18px;
+    }
+    .inspired{
+      min-height:38px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:12px;
+    }
+    .prices{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+    }
+    .price{
+      border:1px solid var(--line);
+      border-radius:10px;
+      text-align:center;
+      padding:8px 4px;
+      background:#0d0d13;
+      cursor:pointer;
+    }
+    .price:hover{
+      border-color:var(--gold);
+    }
+    .price b{
+      display:block;
+      color:var(--gold);
+      font-size:16px;
+    }
+    .price span{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .cart{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:#08080c;
+      border-top:1px solid var(--line);
+      padding:10px 12px;
+      z-index:20;
+    }
+    .cart-inner{
+      max-width:1100px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      gap:10px;
+      align-items:center;
+    }
+    .cart-list{
+      color:var(--muted);
+      font-size:13px;
+      max-height:44px;
+      overflow:auto;
+    }
+    button{
+      border:0;
+      border-radius:10px;
+      padding:12px 14px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .wa{
+      background:var(--green);
+      color:#071208;
+    }
+    .clear{
+      background:#252532;
+      color:#fff;
+    }
+    .empty{
+      color:var(--muted);
+      text-align:center;
+      margin:40px 0;
+    }
+    @media(max-width:760px){
+      .controls{grid-template-columns:1fr}
+      .cart-inner{grid-template-columns:1fr}
+      header h1{font-size:28px}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>MAYA PARFUM</h1>
+  <p>Catálogo de decants para hombre. Elige tus perfumes en 3 ml, 5 ml o 10 ml y envía tu pedido directo por WhatsApp.</p>
+</header>
+
+<div class="bar">
+  <div class="controls">
+    <input id="search" placeholder="Buscar perfume, marca o inspiración..." />
+    <select id="category">
+      <option value="all">Todas</option>
+      <option value="Diseñador">Diseñador</option>
+      <option value="Árabes">Árabes</option>
+    </select>
+    <select id="sort">
+      <option value="default">Orden normal</option>
+      <option value="low">10 ml menor precio</option>
+      <option value="high">10 ml mayor precio</option>
+    </select>
+  </div>
+</div>
+
+<main id="catalog"></main>
+
+<div class="cart">
+  <div class="cart-inner">
+    <div>
+      <b>Pedido:</b>
+      <div class="cart-list" id="cartList">Aún no agregas perfumes.</div>
+    </div>
+    <button class="clear" onclick="clearCart()">Limpiar</button>
+    <button class="wa" onclick="sendWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+</div>
+
+<script>
+const phone = "529984998030";
+
+const products = [
+{cat:"Diseñador", name:"Nautica Voyage", inspired:"Original", p3:35, p5:50, p10:95},
+{cat:"Diseñador", name:"Legend Spirit", inspired:"Original", p3:45, p5:70, p10:125},
+{cat:"Diseñador", name:"CK Be", inspired:"Original", p3:45, p5:70, p10:125},
+{cat:"Diseñador", name:"CK One Shock", inspired:"Original", p3:45, p5:70, p10:125},
+{cat:"Diseñador", name:"Versace Eros EDT", inspired:"Original", p3:50, p5:80, p10:145},
+{cat:"Diseñador", name:"Light Blue Dolce & Gabbana", inspired:"Original", p3:50, p5:80, p10:140},
+{cat:"Diseñador", name:"K by Dolce & Gabbana", inspired:"Original", p3:55, p5:85, p10:155},
+{cat:"Diseñador", name:"Dylan Blue", inspired:"Original", p3:55, p5:90, p10:165},
+{cat:"Diseñador", name:"Toy Boy Moschino", inspired:"Original", p3:55, p5:90, p10:165},
+{cat:"Diseñador", name:"Bharara King", inspired:"Xerjoff Erba Pura", p3:60, p5:95, p10:175},
+{cat:"Diseñador", name:"Ariana Grande", inspired:"Original", p3:60, p5:95, p10:175},
+{cat:"Diseñador", name:"Invictus Victory Elixir", inspired:"Original", p3:65, p5:100, p10:185},
+{cat:"Diseñador", name:"212 VIP Black", inspired:"Original", p3:80, p5:130, p10:235},
+{cat:"Diseñador", name:"Versace Eros Energy", inspired:"Original", p3:80, p5:125, p10:225},
+{cat:"Diseñador", name:"One Million", inspired:"Original", p3:85, p5:135, p10:245},
+{cat:"Diseñador", name:"Acqua Di Gio Profondo Parfum", inspired:"Original", p3:100, p5:160, p10:290},
+{cat:"Diseñador", name:"YSL Y EDT", inspired:"Original", p3:105, p5:165, p10:300},
+
+{cat:"Árabes", name:"Salvo", inspired:"Dior Sauvage", p3:35, p5:60, p10:110},
+{cat:"Árabes", name:"Hayaati", inspired:"Invictus", p3:40, p5:60, p10:115},
+{cat:"Árabes", name:"Victorioso Myth", inspired:"Invictus Legend", p3:40, p5:60, p10:115},
+{cat:"Árabes", name:"Najdia Intense", inspired:"Le Beau", p3:40, p5:60, p10:115},
+{cat:"Árabes", name:"Ramz Silver", inspired:"Ultra Male", p3:40, p5:65, p10:120},
+{cat:"Árabes", name:"Ramz Gold", inspired:"Oriental dulce", p3:40, p5:65, p10:120},
+{cat:"Árabes", name:"Odyssey Mega", inspired:"Megamare", p3:45, p5:70, p10:130},
+{cat:"Árabes", name:"Odyssey White", inspired:"Stronger With You", p3:45, p5:70, p10:135},
+{cat:"Árabes", name:"Supremacy Silver", inspired:"Creed Aventus", p3:45, p5:70, p10:135},
+{cat:"Árabes", name:"Asad", inspired:"Dior Sauvage Elixir", p3:45, p5:70, p10:135},
+{cat:"Árabes", name:"Honor & Glory", inspired:"Nishane Ani", p3:45, p5:70, p10:135},
+{cat:"Árabes", name:"Odyssey Homme Black", inspired:"Tom Ford Noir Extreme", p3:45, p5:65, p10:125},
+{cat:"Árabes", name:"Odyssey Aqua", inspired:"Invictus", p3:45, p5:65, p10:125},
+{cat:"Árabes", name:"Mandarin Sky", inspired:"Scandal Pour Homme", p3:50, p5:75, p10:145},
+{cat:"Árabes", name:"Bharara Rome Pour Homme", inspired:"Estilo azul moderno", p3:50, p5:75, p10:145},
+{cat:"Árabes", name:"Bharara Rome Extradose Homme", inspired:"Valentino Uomo Born in Roma", p3:50, p5:75, p10:145},
+{cat:"Árabes", name:"Odyssey Artisto", inspired:"Le Beau", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"Odyssey Limoni", inspired:"Dior Homme Cologne", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"Club de Nuit Intense", inspired:"Creed Aventus", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"Khamrah", inspired:"Angels' Share", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"9AM Dive", inspired:"Bleu de Chanel", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"9PM Black", inspired:"Ultra Male", p3:50, p5:80, p10:150},
+{cat:"Árabes", name:"Club de Nuit Untold", inspired:"Baccarat Rouge 540", p3:55, p5:85, p10:160},
+{cat:"Árabes", name:"Odyssey Go Mango", inspired:"Mango tropical", p3:55, p5:85, p10:165},
+{cat:"Árabes", name:"Art Of Universe", inspired:"Louis Vuitton Imagination", p3:55, p5:85, p10:165},
+{cat:"Árabes", name:"Club de Nuit Iconic", inspired:"Bleu de Chanel", p3:55, p5:85, p10:165},
+{cat:"Árabes", name:"Hawas For Him", inspired:"Invictus", p3:55, p5:85, p10:165},
+{cat:"Árabes", name:"Hawas Ice", inspired:"Invictus Absolu", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"Mandarin Sky Elixir", inspired:"Scandal Absolu", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"9PM Elixir", inspired:"Le Male Elixir", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"9PM Rebel", inspired:"Dulce moderno", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"Vintage Radio", inspired:"Initio Paragon", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"Hawas Fire", inspired:"Spicebomb Extreme", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"Hawas Elixir", inspired:"Le Male Elixir", p3:55, p5:90, p10:170},
+{cat:"Árabes", name:"9PM Night Out", inspired:"Ultra Male", p3:60, p5:95, p10:175},
+{cat:"Árabes", name:"Hawas Cobra", inspired:"Louis Vuitton Imagination", p3:60, p5:95, p10:175},
+{cat:"Árabes", name:"Hawas Malibu", inspired:"Le Beau Le Parfum / Paradise Garden", p3:60, p5:95, p10:185}
+];
+
+let cart = [];
+
+function render(){
+  const q = document.getElementById("search").value.toLowerCase();
+  const cat = document.getElementById("category").value;
+  const sort = document.getElementById("sort").value;
+  let filtered = products.filter(p =>
+    (cat === "all" || p.cat === cat) &&
+    (p.name.toLowerCase().includes(q) || p.inspired.toLowerCase().includes(q))
+  );
+  if(sort === "low") filtered.sort((a,b)=>a.p10-b.p10);
+  if(sort === "high") filtered.sort((a,b)=>b.p10-a.p10);
+
+  const cats = ["Diseñador","Árabes"];
+  let html = "";
+  cats.forEach(c=>{
+    const items = filtered.filter(p=>p.cat===c);
+    if(!items.length) return;
+    html += `<h2 class="section-title">${c}</h2><div class="grid">`;
+    items.forEach(p=>{
+      html += `<div class="card">
+        <span class="tag">${p.cat}</span>
+        <h3>${p.name}</h3>
+        <div class="inspired">Inspirado en: <b>${p.inspired}</b></div>
+        <div class="prices">
+          <div class="price" onclick="addToCart('${p.name}', '3 ml', ${p.p3})"><b>$${p.p3}</b><span>3 ml</span></div>
+          <div class="price" onclick="addToCart('${p.name}', '5 ml', ${p.p5})"><b>$${p.p5}</b><span>5 ml</span></div>
+          <div class="price" onclick="addToCart('${p.name}', '10 ml', ${p.p10})"><b>$${p.p10}</b><span>10 ml</span></div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById("catalog").innerHTML = html || `<div class="empty">No encontré perfumes con esa búsqueda.</div>`;
+}
+
+function addToCart(name, size, price){
+  cart.push({name,size,price});
+  updateCart();
+}
+
+function updateCart(){
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const text = cart.length ? cart.map(i=>`${i.name} ${i.size} $${i.price}`).join(" • ") + ` | Total: $${total}` : "Aún no agregas perfumes.";
+  document.getElementById("cartList").textContent = text;
+}
+
+function clearCart(){
+  cart = [];
+  updateCart();
+}
+
+function sendWhatsApp(){
+  if(!cart.length){
+    alert("Agrega al menos un perfume al pedido.");
+    return;
+  }
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const items = cart.map(i=>`• ${i.name} – ${i.size} – $${i.price}`).join("%0A");
+  const msg = `Hola, quiero realizar este pedido:%0A%0A${items}%0A%0ATotal: $${total}`;
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("category").addEventListener("change", render);
+document.getElementById("sort").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>
