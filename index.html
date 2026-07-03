@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maya Parfum | Catálogo de Decants</title>
+  <style>
+    :root {
+      --bg:#0b0b0f;
+      --card:#15151d;
+      --gold:#d4af37;
+      --text:#f5f5f5;
+      --muted:#b9b9c6;
+      --green:#25d366;
+      --line:#2a2a36;
+      --rose:#ff7ab6;
+      --blue:#60a5fa;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#050507,#11111a);
+      color:var(--text);
+    }
+    header{
+      padding:32px 16px 26px;
+      text-align:center;
+      background:radial-gradient(circle at top,#292330,#07070b 65%);
+      border-bottom:1px solid var(--line);
+    }
+    header h1{
+      margin:0;
+      font-size:38px;
+      letter-spacing:2px;
+      color:var(--gold);
+    }
+    header p{
+      margin:9px auto 0;
+      max-width:820px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.45;
+    }
+    .bar{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(11,11,15,.96);
+      backdrop-filter:blur(8px);
+      padding:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .controls{
+      max-width:1180px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr 180px 160px 170px;
+      gap:10px;
+    }
+    input,select{
+      width:100%;
+      border:1px solid var(--line);
+      background:#111119;
+      color:var(--text);
+      padding:12px;
+      border-radius:10px;
+      font-size:14px;
+    }
+    main{
+      max-width:1180px;
+      margin:20px auto 150px;
+      padding:0 12px;
+    }
+    .section-title{
+      margin:28px 0 12px;
+      font-size:22px;
+      color:var(--gold);
+      border-left:4px solid var(--gold);
+      padding-left:10px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:14px;
+    }
+    .card{
+      background:linear-gradient(180deg,#181821,#101016);
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 8px 24px rgba(0,0,0,.25);
+    }
+    .img-wrap{
+      height:190px;
+      background:linear-gradient(135deg,#22222d,#08080d);
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .img-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .placeholder{
+      width:78px;
+      height:78px;
+      border:1px solid var(--gold);
+      border-radius:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--gold);
+      font-size:34px;
+      opacity:.85;
+    }
+    .img-name{
+      position:absolute;
+      left:10px;
+      right:10px;
+      bottom:9px;
+      color:#fff;
+      font-size:11px;
+      text-align:center;
+      opacity:.6;
+    }
+    .content{padding:15px}
+    .tag{
+      display:inline-block;
+      font-size:11px;
+      color:#111;
+      background:var(--gold);
+      padding:4px 8px;
+      border-radius:999px;
+      margin-bottom:8px;
+      font-weight:bold;
+    }
+    .tag.mujer{background:var(--rose); color:#1b0711}
+    .tag.arabe{background:#99f6e4; color:#042f2e}
+    .card h3{
+      margin:0 0 6px;
+      font-size:18px;
+      line-height:1.2;
+    }
+    .inspired{
+      min-height:38px;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:12px;
+    }
+    .prices{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:7px;
+    }
+    .price{
+      border:1px solid var(--line);
+      border-radius:10px;
+      text-align:center;
+      padding:8px 4px;
+      background:#0d0d13;
+      cursor:pointer;
+    }
+    .price:hover{border-color:var(--gold)}
+    .price b{
+      display:block;
+      color:var(--gold);
+      font-size:15px;
+    }
+    .price span{
+      font-size:12px;
+      color:var(--muted);
+    }
+    .cart{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:#08080c;
+      border-top:1px solid var(--line);
+      padding:10px 12px;
+      z-index:20;
+    }
+    .cart-inner{
+      max-width:1180px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      gap:10px;
+      align-items:center;
+    }
+    .cart-list{
+      color:var(--muted);
+      font-size:13px;
+      max-height:50px;
+      overflow:auto;
+      line-height:1.35;
+    }
+    button{
+      border:0;
+      border-radius:10px;
+      padding:12px 14px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    .wa{background:var(--green); color:#071208}
+    .clear{background:#252532; color:#fff}
+    .empty{
+      color:var(--muted);
+      text-align:center;
+      margin:40px 0;
+    }
+    @media(max-width:900px){
+      .controls{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:760px){
+      .controls{grid-template-columns:1fr}
+      .cart-inner{grid-template-columns:1fr}
+      header h1{font-size:28px}
+      .img-wrap{height:170px}
+      .prices{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>MAYA PARFUM</h1>
+  <p>Catálogo de decants para hombre y mujer. Elige tus perfumes en 3 ml, 5 ml, 10 ml o 30 ml y envía tu pedido directo por WhatsApp.</p>
+</header>
+
+<div class="bar">
+  <div class="controls">
+    <input id="search" placeholder="Buscar perfume, marca o inspiración..." />
+    <select id="category">
+      <option value="all">Todas las categorías</option>
+      <option value="Diseñador Hombre">Diseñador Hombre</option>
+      <option value="Árabes Hombre">Árabes Hombre</option>
+      <option value="Mujer">Mujer</option>
+    </select>
+    <select id="gender">
+      <option value="all">Hombre y mujer</option>
+      <option value="Hombre">Solo hombre</option>
+      <option value="Mujer">Solo mujer</option>
+    </select>
+    <select id="sort">
+      <option value="default">Orden normal</option>
+      <option value="low">30 ml menor precio</option>
+      <option value="high">30 ml mayor precio</option>
+    </select>
+  </div>
+</div>
+
+<main id="catalog"></main>
+
+<div class="cart">
+  <div class="cart-inner">
+    <div>
+      <b>Pedido:</b>
+      <div class="cart-list" id="cartList">Aún no agregas perfumes.</div>
+    </div>
+    <button class="clear" onclick="clearCart()">Limpiar</button>
+    <button class="wa" onclick="sendWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+</div>
+
+<script>
+const phone = "529984998030";
+const products = [
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "212 VIP Black",
+    "inspired": "Original",
+    "p3": 90,
+    "p5": 140,
+    "p10": 255,
+    "p30": 750,
+    "img": "imagenes/212-vip-black.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Acqua Di Gio Profondo Parfum",
+    "inspired": "Original",
+    "p3": 110,
+    "p5": 170,
+    "p10": 315,
+    "p30": 920,
+    "img": "imagenes/acqua-di-gio-profondo-parfum.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Bharara King",
+    "inspired": "Xerjoff Erba Pura",
+    "p3": 70,
+    "p5": 105,
+    "p10": 190,
+    "p30": 560,
+    "img": "imagenes/bharara-king.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "CK Be",
+    "inspired": "Original",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 315,
+    "img": "imagenes/ck-be.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "CK One EDT",
+    "inspired": "Original",
+    "p3": 40,
+    "p5": 60,
+    "p10": 105,
+    "p30": 390,
+    "img": "imagenes/ck-one-edt.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "CK One Shock",
+    "inspired": "Original",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 385,
+    "img": "imagenes/ck-one-shock.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Dolce Gabbana Capri",
+    "inspired": "Original",
+    "p3": 70,
+    "p5": 105,
+    "p10": 195,
+    "p30": 570,
+    "img": "imagenes/dolce-gabbana-capri.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Dylan Blue",
+    "inspired": "Original",
+    "p3": 65,
+    "p5": 95,
+    "p10": 175,
+    "p30": 515,
+    "img": "imagenes/dylan-blue.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Invictus Victory Elixir",
+    "inspired": "Original",
+    "p3": 70,
+    "p5": 110,
+    "p10": 200,
+    "p30": 695,
+    "img": "imagenes/invictus-victory-elixir.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "K by Dolce & Gabbana",
+    "inspired": "Original",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 505,
+    "img": "imagenes/k-by-dolce-gabbana.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Legend Spirit",
+    "inspired": "Original",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 440,
+    "img": "imagenes/legend-spirit.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Light Blue DOLCE GABANNA",
+    "inspired": "Original",
+    "p3": 55,
+    "p5": 85,
+    "p10": 155,
+    "p30": 450,
+    "img": "imagenes/light-blue-dolce-gabanna.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Nautica Voyage",
+    "inspired": "Original",
+    "p3": 35,
+    "p5": 55,
+    "p10": 100,
+    "p30": 390,
+    "img": "imagenes/nautica-voyage.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "One Million",
+    "inspired": "Original",
+    "p3": 95,
+    "p5": 145,
+    "p10": 265,
+    "p30": 885,
+    "img": "imagenes/one-million.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Toy Boy Moschino",
+    "inspired": "Original",
+    "p3": 65,
+    "p5": 100,
+    "p10": 180,
+    "p30": 540,
+    "img": "imagenes/toy-boy-moschino.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Versace Eros EDT",
+    "inspired": "Original",
+    "p3": 55,
+    "p5": 85,
+    "p10": 155,
+    "p30": 480,
+    "img": "imagenes/versace-eros-edt.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "Versace Eros Energy",
+    "inspired": "Original",
+    "p3": 85,
+    "p5": 135,
+    "p10": 245,
+    "p30": 720,
+    "img": "imagenes/versace-eros-energy.jpg"
+  },
+  {
+    "cat": "Diseñador Hombre",
+    "gender": "Hombre",
+    "name": "YSL Y EDT",
+    "inspired": "Original",
+    "p3": 115,
+    "p5": 175,
+    "p10": 325,
+    "p30": 200,
+    "img": "imagenes/ysl-y-edt.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "9PM Femme",
+    "inspired": "Aroma femenino moderno",
+    "p3": 45,
+    "p5": 70,
+    "p10": 130,
+    "p30": 375,
+    "img": "imagenes/9pm-femme.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Afnan 9 AM Femme",
+    "inspired": "Ariana Grande Cloud",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 410,
+    "img": "imagenes/afnan-9-am-femme.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Antonio Banderas",
+    "inspired": "Original",
+    "p3": 45,
+    "p5": 70,
+    "p10": 130,
+    "p30": 335,
+    "img": "imagenes/antonio-banderas.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Ariana Grande Cloud",
+    "inspired": "Original",
+    "p3": 70,
+    "p5": 105,
+    "p10": 190,
+    "p30": 355,
+    "img": "imagenes/ariana-grande-cloud.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Bharara Extradose Woman",
+    "inspired": "Valentino Donna Born in Roma",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/bharara-extradose-woman.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Club de Nuit Untold",
+    "inspired": "Baccarat Rouge 540",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 470,
+    "img": "imagenes/club-de-nuit-untold.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Club de Nuit Woman",
+    "inspired": "Chanel Coco Mademoiselle",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 450,
+    "img": "imagenes/club-de-nuit-woman.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Hayaati Florence",
+    "inspired": "Floral elegante",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 375,
+    "img": "imagenes/hayaati-florence.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Hayaati Gold Elixir",
+    "inspired": "Aroma femenino dorado",
+    "p3": 45,
+    "p5": 65,
+    "p10": 120,
+    "p30": 200,
+    "img": "imagenes/hayaati-gold-elixir.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Katy Perry",
+    "inspired": "Original",
+    "p3": 45,
+    "p5": 70,
+    "p10": 130,
+    "p30": 480,
+    "img": "imagenes/katy-perry.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Light Blue Mujer",
+    "inspired": "Light Blue Women",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 410,
+    "img": "imagenes/light-blue-mujer.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Odyssey Candee",
+    "inspired": "Prada Candy",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/odyssey-candee.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Opulent Dubai",
+    "inspired": "Aroma árabe dulce",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/opulent-dubai.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Rasasi Woman",
+    "inspired": "Original",
+    "p3": 40,
+    "p5": 65,
+    "p10": 115,
+    "p30": 390,
+    "img": "imagenes/rasasi-woman.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Yara Candy",
+    "inspired": "Gourmand dulce",
+    "p3": 45,
+    "p5": 70,
+    "p10": 130,
+    "p30": 375,
+    "img": "imagenes/yara-candy.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Yara Elixir",
+    "inspired": "Gourmand moderno",
+    "p3": 55,
+    "p5": 85,
+    "p10": 155,
+    "p30": 545,
+    "img": "imagenes/yara-elixir.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Yara Moi",
+    "inspired": "Floral cremoso",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/yara-moi.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Yara Rosa",
+    "inspired": "Floral afrutado",
+    "p3": 50,
+    "p5": 80,
+    "p10": 145,
+    "p30": 430,
+    "img": "imagenes/yara-rosa.jpg"
+  },
+  {
+    "cat": "Mujer",
+    "gender": "Mujer",
+    "name": "Yara Tous",
+    "inspired": "Tropical de mango",
+    "p3": 50,
+    "p5": 80,
+    "p10": 145,
+    "p30": 485,
+    "img": "imagenes/yara-tous.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "9AM Dive",
+    "inspired": "Bleu de Chanel",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/9am-dive.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "9PM Black",
+    "inspired": "Ultra Male",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/9pm-black.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "9PM Elixir",
+    "inspired": "Le Male Elixir",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/9pm-elixir.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "9PM Night Out",
+    "inspired": "Ultra Male",
+    "p3": 65,
+    "p5": 95,
+    "p10": 175,
+    "p30": 505,
+    "img": "imagenes/9pm-night-out.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "9PM Rebel",
+    "inspired": "Dulce moderno",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/9pm-rebel.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Art Of Universe",
+    "inspired": "Louis Vuitton Imagination",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 470,
+    "img": "imagenes/art-of-universe.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Asad",
+    "inspired": "Dior Sauvage Elixir",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/asad.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Bharara Rome Extradose Homme",
+    "inspired": "Valentino Uomo Born in Roma",
+    "p3": 50,
+    "p5": 80,
+    "p10": 145,
+    "p30": 430,
+    "img": "imagenes/bharara-rome-extradose-homme.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Bharara Rome Pour Homme",
+    "inspired": "Estilo azul moderno",
+    "p3": 50,
+    "p5": 80,
+    "p10": 145,
+    "p30": 415,
+    "img": "imagenes/bharara-rome-pour-homme.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Club de Nuit Iconic",
+    "inspired": "Bleu de Chanel",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 470,
+    "img": "imagenes/club-de-nuit-iconic.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Club de Nuit Intense",
+    "inspired": "Creed Aventus",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/club-de-nuit-intense.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Club de Nuit Untold",
+    "inspired": "Baccarat Rouge 540",
+    "p3": 55,
+    "p5": 85,
+    "p10": 160,
+    "p30": 470,
+    "img": "imagenes/club-de-nuit-untold.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Fakhar",
+    "inspired": "YSL Y",
+    "p3": 55,
+    "p5": 85,
+    "p10": 155,
+    "p30": 505,
+    "img": "imagenes/fakhar.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hayaati",
+    "inspired": "Invictus",
+    "p3": 40,
+    "p5": 65,
+    "p10": 115,
+    "p30": 335,
+    "img": "imagenes/hayaati.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Black",
+    "inspired": "Aroma masculino intenso",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 455,
+    "img": "imagenes/hawas-black-2.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Black",
+    "inspired": "Aroma masculino intenso",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/hawas-black-2.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Cobra",
+    "inspired": "Louis Vuitton Imagination",
+    "p3": 65,
+    "p5": 95,
+    "p10": 175,
+    "p30": 530,
+    "img": "imagenes/hawas-cobra.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Elixir",
+    "inspired": "Le Male Elixir",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 450,
+    "img": "imagenes/hawas-elixir.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Fire",
+    "inspired": "Spicebomb Extreme",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/hawas-fire.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas For Him",
+    "inspired": "Invictus",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 485,
+    "img": "imagenes/hawas-for-him.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Ice",
+    "inspired": "Invictus Absolu",
+    "p3": 60,
+    "p5": 90,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/hawas-ice.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Malibu",
+    "inspired": "Le Beau Le Parfum / Paradise Garden",
+    "p3": 65,
+    "p5": 100,
+    "p10": 185,
+    "p30": 535,
+    "img": "imagenes/hawas-malibu.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Hawas Tropical",
+    "inspired": "Aroma tropical fresco",
+    "p3": 65,
+    "p5": 100,
+    "p10": 190,
+    "p30": 580,
+    "img": "imagenes/hawas-tropical.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Honor & Glory",
+    "inspired": "Nishane Ani",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 410,
+    "img": "imagenes/honor-glory.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Khamrah",
+    "inspired": "Angels' Share",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/khamrah.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Mandarin Sky",
+    "inspired": "Scandal Pour Homme",
+    "p3": 50,
+    "p5": 80,
+    "p10": 145,
+    "p30": 415,
+    "img": "imagenes/mandarin-sky.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Mandarin Sky Elixir",
+    "inspired": "Scandal Absolu",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/mandarin-sky-elixir.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Najdia Intense",
+    "inspired": "Le Beau",
+    "p3": 40,
+    "p5": 65,
+    "p10": 115,
+    "p30": 355,
+    "img": "imagenes/najdia-intense.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Aqua",
+    "inspired": "Invictus",
+    "p3": 45,
+    "p5": 70,
+    "p10": 125,
+    "p30": 375,
+    "img": "imagenes/odyssey-aqua.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Artisto",
+    "inspired": "Le Beau",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/odyssey-artisto.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Bahamas",
+    "inspired": "Aroma tropical fresco",
+    "p3": 55,
+    "p5": 85,
+    "p10": 155,
+    "p30": 355,
+    "img": "imagenes/odyssey-bahamas.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Dubai Chocolat",
+    "inspired": "Chocolate gourmand",
+    "p3": 45,
+    "p5": 65,
+    "p10": 120,
+    "p30": 200,
+    "img": "imagenes/odyssey-dubai-chocolat.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Go Mango",
+    "inspired": "Mango tropical",
+    "p3": 60,
+    "p5": 90,
+    "p10": 165,
+    "p30": 470,
+    "img": "imagenes/odyssey-go-mango.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Homme Black",
+    "inspired": "Tom Ford Noir Extreme",
+    "p3": 45,
+    "p5": 70,
+    "p10": 125,
+    "p30": 370,
+    "img": "imagenes/odyssey-homme-black.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Limoni",
+    "inspired": "Dior Homme Cologne",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 430,
+    "img": "imagenes/odyssey-limoni.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Mega",
+    "inspired": "Megamare",
+    "p3": 45,
+    "p5": 70,
+    "p10": 130,
+    "p30": 390,
+    "img": "imagenes/odyssey-mega.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey Toffee Coffee",
+    "inspired": "Toffee y café gourmand",
+    "p3": 55,
+    "p5": 80,
+    "p10": 150,
+    "p30": 450,
+    "img": "imagenes/odyssey-toffee-coffee.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Odyssey White",
+    "inspired": "Stronger With You",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/odyssey-white.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Ramz Gold",
+    "inspired": "Oriental dulce",
+    "p3": 45,
+    "p5": 65,
+    "p10": 120,
+    "p30": 370,
+    "img": "imagenes/ramz-gold.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Ramz Silver",
+    "inspired": "Ultra Male",
+    "p3": 45,
+    "p5": 65,
+    "p10": 120,
+    "p30": 355,
+    "img": "imagenes/ramz-silver.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Riffs Freeze",
+    "inspired": "Aroma fresco intenso",
+    "p3": 70,
+    "p5": 110,
+    "p10": 205,
+    "p30": 430,
+    "img": "imagenes/riffs-freeze.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Salvo",
+    "inspired": "Dior Sauvage",
+    "p3": 40,
+    "p5": 60,
+    "p10": 110,
+    "p30": 335,
+    "img": "imagenes/salvo.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Supremacy Silver",
+    "inspired": "Creed Aventus",
+    "p3": 50,
+    "p5": 75,
+    "p10": 135,
+    "p30": 390,
+    "img": "imagenes/supremacy-silver.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Victorioso Myth",
+    "inspired": "Invictus Legend",
+    "p3": 40,
+    "p5": 65,
+    "p10": 115,
+    "p30": 335,
+    "img": "imagenes/victorioso-myth.jpg"
+  },
+  {
+    "cat": "Árabes Hombre",
+    "gender": "Hombre",
+    "name": "Vintage Radio",
+    "inspired": "Initio Paragon",
+    "p3": 60,
+    "p5": 95,
+    "p10": 170,
+    "p30": 485,
+    "img": "imagenes/vintage-radio.jpg"
+  }
+];
+let cart = [];
+
+function safeText(str){
+  return String(str || "").replace(/[&<>"']/g, function(m){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[m];
+  });
+}
+
+function render(){
+  const q = document.getElementById("search").value.toLowerCase();
+  const cat = document.getElementById("category").value;
+  const gender = document.getElementById("gender").value;
+  const sort = document.getElementById("sort").value;
+
+  let filtered = products.filter(p =>
+    (cat === "all" || p.cat === cat) &&
+    (gender === "all" || p.gender === gender) &&
+    (p.name.toLowerCase().includes(q) || p.inspired.toLowerCase().includes(q))
+  );
+
+  if(sort === "low") filtered.sort((a,b)=>a.p30-b.p30);
+  if(sort === "high") filtered.sort((a,b)=>b.p30-a.p30);
+
+  const cats = ["Diseñador Hombre","Árabes Hombre","Mujer"];
+  let html = "";
+  cats.forEach(c=>{
+    const items = filtered.filter(p=>p.cat===c);
+    if(!items.length) return;
+    html += `<h2 class="section-title">${c}</h2><div class="grid">`;
+    items.forEach(p=>{
+      const tagClass = p.gender === "Mujer" ? "tag mujer" : (p.cat.includes("Árabes") ? "tag arabe" : "tag");
+      const name = safeText(p.name);
+      const inspired = safeText(p.inspired || "Original");
+      html += `<div class="card">
+        <div class="img-wrap">
+          <img src="${safeText(p.img)}" alt="${name}" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='flex'; this.parentElement.querySelector('.img-name').style.display='block';">
+          <div class="placeholder" style="display:none;">🧴</div>
+          <div class="img-name" style="display:none;">${safeText(p.img)}</div>
+        </div>
+        <div class="content">
+          <span class="${tagClass}">${safeText(p.cat)}</span>
+          <h3>${name}</h3>
+          <div class="inspired">Inspirado en: <b>${inspired}</b></div>
+          <div class="prices">
+            <div class="price" onclick="addToCart(${JSON.stringify(p.name)}, '3 ml', ${p.p3})"><b>${currency(p.p3)}</b><span>3 ml</span></div>
+            <div class="price" onclick="addToCart(${JSON.stringify(p.name)}, '5 ml', ${p.p5})"><b>${currency(p.p5)}</b><span>5 ml</span></div>
+            <div class="price" onclick="addToCart(${JSON.stringify(p.name)}, '10 ml', ${p.p10})"><b>${currency(p.p10)}</b><span>10 ml</span></div>
+            <div class="price" onclick="addToCart(${JSON.stringify(p.name)}, '30 ml', ${p.p30})"><b>${currency(p.p30)}</b><span>30 ml</span></div>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById("catalog").innerHTML = html || `<div class="empty">No encontré perfumes con esa búsqueda.</div>`;
+}
+
+function currency(n){ return "$" + n; }
+
+function addToCart(name, size, price){
+  cart.push({name,size,price});
+  updateCart();
+}
+
+function updateCart(){
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const text = cart.length ? cart.map(i=>`${i.name} ${i.size} $${i.price}`).join(" • ") + ` | Total: $${total}` : "Aún no agregas perfumes.";
+  document.getElementById("cartList").textContent = text;
+}
+
+function clearCart(){
+  cart = [];
+  updateCart();
+}
+
+function sendWhatsApp(){
+  if(!cart.length){
+    alert("Agrega al menos un perfume al pedido.");
+    return;
+  }
+  const total = cart.reduce((s,i)=>s+i.price,0);
+  const items = cart.map(i=>`• ${i.name} – ${i.size} – $${i.price}`).join("%0A");
+  const msg = `Hola, quiero realizar este pedido:%0A%0A${items}%0A%0ATotal: $${total}`;
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("category").addEventListener("change", render);
+document.getElementById("gender").addEventListener("change", render);
+document.getElementById("sort").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>
